@@ -64,11 +64,3 @@ function withAppConfig(config) {
 
 	return config;
 }
-
-function _getRawDataForSheet(index) {
-	return SpreadsheetApp
-		.getActiveSpreadsheet()
-		.getSheets()[index]
-		.getDataRange()
-		.getValues();
-}
