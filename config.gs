@@ -26,13 +26,7 @@ function getConfig() {
 }
 
 function fetchChoresConfig() {
-	var choresConfigSheet = 
-		SpreadsheetApp
-			.getActiveSpreadsheet()
-			.getSheets()[CHORES_SHEET]
-			.getDataRange()
-			.getValues();
-
+	var choresConfigSheet = _getRawDataForSheet(CHORES_SHEET);
 	var choresArr = [];
 
 	for(var i = 1; i < choresConfigSheet.length; i++) {
@@ -52,4 +46,13 @@ function fetchChoresConfig() {
 }
 
 function fetchAppConfig() {
+	var appConfigSheet = _getRawDataForSheet(APP_SHEET);
+}
+
+function _getRawDataForSheet(index) {
+	return SpreadsheetApp
+		.getActiveSpreadsheet()
+		.getSheets()[index]
+		.getDataRange()
+		.getValues();
 }
