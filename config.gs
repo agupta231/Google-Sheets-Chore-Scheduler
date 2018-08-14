@@ -26,11 +26,29 @@ function getConfig() {
 }
 
 function fetchChoresConfig() {
-	Logger.log(SpreadsheetApp
-		.getActiveSpreadsheet()
-		.getSheets()[CHORES_SHEET]
-		.getDataRange()
-		.getValues());
+	var choresConfigSheet = 
+		SpreadsheetApp
+			.getActiveSpreadsheet()
+			.getSheets()[CHORES_SHEET]
+			.getDataRange()
+			.getValues();
+
+	var choresArr = [];
+
+	for(var i = 1; i < choresConfigSheet.length; i++) {
+		var currentChoreRaw = choresConfigSheet[i];
+		var dayMatrix = currentChoreRaw.slice(2);
+
+		var currentChore = new Chore(
+			currentChoreRaw[0], 
+			currentChoreRaw[1],
+			dayMatrix
+		);
+		
+		choresArr.push(currentChore);
+	}
+
+	return choresArr;
 }
 
 function fetchAppConfig() {
