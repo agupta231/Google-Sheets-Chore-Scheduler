@@ -12,8 +12,9 @@ var CHORES_SHEET = 2
 var APP_SHEET = 3;
 var USER_SHEET = 4;
 
-function Config(maxWorkTime) {
+function Config(maxWorkTime, chores) {
 	this.MAX_WORK_TIME = maxWorkTime;
+	this.CHORES = chores;
 }
 
 function Chore(name, weight, dayMatrix) {
@@ -23,11 +24,17 @@ function Chore(name, weight, dayMatrix) {
 }
 
 function getConfig() {
+	var config = new Config();
+
+	config = withChoresConfig(config);
+	config = withAppConfig(config);
+
+	return config;
 }
 
-function fetchChoresConfig() {
+function withChoresConfig(config) {
 	var choresConfigSheet = _getRawDataForSheet(CHORES_SHEET);
-	var choresArr = [];
+	config.CHORES = []
 
 	for(var i = 1; i < choresConfigSheet.length; i++) {
 		var currentChoreRaw = choresConfigSheet[i];
@@ -39,14 +46,23 @@ function fetchChoresConfig() {
 			dayMatrix
 		);
 		
-		choresArr.push(currentChore);
+		config.CHORES.push(currentChore);
 	}
 
-	return choresArr;
+	return config;
 }
 
-function fetchAppConfig() {
+function withAppConfig(config) {
 	var appConfigSheet = _getRawDataForSheet(APP_SHEET);
+
+	for(var i = 1; i < appConfigSheet.length; i++) {
+		if(appConfigSheet[i][0].indexOf("work time") !== -1) {
+			config.MAX_WORK_TIME = appConfigSheet[i][1];
+			break;
+		}
+	}	
+
+	return config;
 }
 
 function _getRawDataForSheet(index) {
