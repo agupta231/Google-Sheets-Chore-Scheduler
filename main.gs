@@ -5,9 +5,9 @@ function main() {
 	getUsers();
 	config = getConfig();
 
-	// if(!validateEditIsComplete) {
-	// 	return;
-	// }
+	if(!validateEditIsComplete) {
+		return;
+	}
 
 	// processBacklog();
 	// project();
