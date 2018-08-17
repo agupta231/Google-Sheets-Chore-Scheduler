@@ -12,10 +12,20 @@ var CHORES_SHEET = 2
 var APP_SHEET = 3;
 var USER_SHEET = 4;
 
+var USERS = [];
+var CONFIG = null;
+
 function _getRawDataForSheet(index) {
 	return SpreadsheetApp
 		.getActiveSpreadsheet()
 		.getSheets()[index]
 		.getDataRange()
 		.getValues();
+}
+
+function _getCell(index, row, col) {
+	return SpreadsheetApp
+		.getActiveSpreadsheet()
+		.getSheets()[index]
+		.getRange(row, col);
 }

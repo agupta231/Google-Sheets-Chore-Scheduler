@@ -3,10 +3,11 @@ function Config(maxWorkTime, chores) {
 	this.CHORES = chores;
 }
 
-function Chore(name, weight, dayMatrix) {
+function Chore(name, weight, dayMatrix, heap) {
 	this.name = name;
 	this.weight = weight;
 	this.dayMatrix = dayMatrix;
+	this.heap = heap;
 }
 
 function getConfig() {
@@ -15,7 +16,26 @@ function getConfig() {
 	config = withChoresConfig(config);
 	config = withAppConfig(config);
 
-	return config;
+	CONFIG = config;
+}
+
+function _generate_heap(row, col) {
+	var indexes_arr = [];
+	var heap = [];
+
+	for(var i = 0; i < USERS.length; i++) {
+		indexes_arr.push(i);
+	}
+
+	for(var i = 0; i < USERS.length; i++) {
+		var userIndex = Math.floor(Math.random() * indexes_arr.length);
+
+		heap.push([USERS[indexes_arr[userIndex]].id, 0]);
+		indexes_arr.splice(userIndex, 1);
+	}
+
+	_getCell(CHORES_SHEET, row, col).setValue(JSON.stringify(heap));
+	return heap;
 }
 
 function withChoresConfig(config) {
@@ -24,14 +44,22 @@ function withChoresConfig(config) {
 
 	for(var i = 1; i < choresConfigSheet.length; i++) {
 		var currentChoreRaw = choresConfigSheet[i];
-		var dayMatrix = currentChoreRaw.slice(2);
+		var heapRaw = currentChoreRaw.slice(9);
+
+		if(_getCell(CHORES_SHEET, i, 10).isBlank() || heapRaw[0] === "") {
+			var heap = _generate_heap(i + 1, 10);
+		}
+		else {
+			var heap = heapRaw[0];
+		}
 
 		var currentChore = new Chore(
-			currentChoreRaw[0], 
+			currentChoreRaw[0],
 			currentChoreRaw[1],
-			dayMatrix
+			currentChoreRaw.slice(2, 9),
+			heap
 		);
-		
+
 		config.CHORES.push(currentChore);
 	}
 

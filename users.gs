@@ -1,4 +1,5 @@
-function User(name, credit) {
+function User(id, name, credit) {
+	this.id = id;
 	this.name = name;
 	this.credit = credit;
 }
@@ -10,9 +11,11 @@ function getUsers() {
 	for(var i = 1; i < userSheet.length; i++) {
 		var currentUser = new User( 
 			userSheet[i][0],
-			userSheet[i][1]); 
+			userSheet[i][1],
+			userSheet[i][2]
+		); 
 		users.push(currentUser);	
 	}
 
-	return users;
+	USERS = users;
 }
