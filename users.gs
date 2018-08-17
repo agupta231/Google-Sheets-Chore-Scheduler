@@ -10,7 +10,7 @@ function getUsers() {
 	var users = [];
 	for(var i = 1; i < userSheet.length; i++) {
 		var currentUser = new User( 
-			userSheet[i][0],
+			parseInt(userSheet[i][0]),
 			userSheet[i][1],
 			userSheet[i][2]
 		); 

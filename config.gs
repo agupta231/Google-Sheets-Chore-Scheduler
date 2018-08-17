@@ -1,6 +1,8 @@
-function Config(maxWorkTime, chores) {
+function Config(maxWorkTime, chores, nextRow) {
 	this.MAX_WORK_TIME = maxWorkTime;
 	this.CHORES = chores;
+	this.NEXT_ROW = nextRow;
+	this.ROWS_TO_PROCESS = 0;
 }
 
 function Chore(name, weight, dayMatrix, heap) {
@@ -70,11 +72,15 @@ function withAppConfig(config) {
 	var appConfigSheet = _getRawDataForSheet(APP_SHEET);
 
 	for(var i = 1; i < appConfigSheet.length; i++) {
-		if(appConfigSheet[i][0].indexOf("work time") !== -1) {
+		if(appConfigSheet[i][0].indexOf(WORKTIME_KEYWORD) !== -1) {
 			config.MAX_WORK_TIME = appConfigSheet[i][1];
-			break;
+			continue;
 		}
-	}	
+		if(appConfigSheet[i][0].indexOf(NEXT_ROW_KEYWORD) !== -1) {
+			config.NEXT_ROW = appConfigSheet[i][1];
+			continue;
+		}
+	}
 
 	return config;
 }

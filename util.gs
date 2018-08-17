@@ -12,6 +12,9 @@ var CHORES_SHEET = 2
 var APP_SHEET = 3;
 var USER_SHEET = 4;
 
+var WORKTIME_KEYWORD = "work time";
+var NEXT_ROW_KEYWORD = "Next row";
+
 var USERS = [];
 var CONFIG = null;
 
